@@ -1,14 +1,15 @@
 import React from 'react';
 import { Provider as PaperProvider } from 'react-native-paper';
+import { NativeRouter } from 'react-router-native';
 import Main from './src/components/Main';
-import HomeScreen from './src/screens/HomeScreen';
 
 const App = () => {
   return(
-    <PaperProvider>
-      {/* <Main /> */}
-      <HomeScreen />
-    </PaperProvider>
+    <NativeRouter>
+      <PaperProvider>
+        <Main />
+      </PaperProvider>
+    </NativeRouter>
   );
 };
 

@@ -1,7 +1,6 @@
 // import React, { useContext } from 'react';
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Title } from 'react-native-paper';
 import AppBar from '../components/AppBar';
 import BottomBar from '../components/BottomBar';
 import RepositoryList from '../components/RepositoryList';

@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { BottomNavigation, Text } from 'react-native-paper';
+import { useHistory } from "react-router-native";
 
 const MusicRoute = () => <Text>Music</Text>;
 
@@ -11,9 +12,10 @@ const RecentsRoute = () => <Text>Recents</Text>;
 const BottomBar = () => {
     const [index, setIndex] = React.useState(0);
     const [routes] = React.useState([
-        { key: 'repos', title: 'Repos', icon: 'source-repository' },
-        { key: 'myRepos', title: 'My repos', icon: 'account' },
+        { key: 'repos', title: 'Repos', icon: 'source-repository', path: '/' },
+        { key: 'myRepos', title: 'My repos', icon: 'account', path: '/signIn' }
     ]);
+    const history = useHistory();
     const renderScene = BottomNavigation.SceneMap({
         music: MusicRoute,
         albums: AlbumsRoute,
@@ -25,6 +27,11 @@ const BottomBar = () => {
             navigationState={{ index, routes }}
             onIndexChange={setIndex}
             renderScene={({ route, jumpTo }) => null}
+            onTabPress={({route}) => {
+                console.log('going to:', route.path);
+                history.push(route.path);
+            }}
+            
         />
     );
 };
