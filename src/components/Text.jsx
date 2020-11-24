@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text as NativeText, StyleSheet } from 'react-native';
+import { Text as NativeText, StyleSheet, Platform } from 'react-native';
 
 import theme from '../theme';
 
@@ -7,7 +7,11 @@ const styles = StyleSheet.create({
     text: {
         color: theme.colors.textPrimary,
         fontSize: theme.fontSizes.body,
-        fontFamily: theme.fonts.main,
+        fontFamily: Platform.select({
+            android: theme.fonts.android,
+            ios: theme.fonts.ios,
+            default: theme.fonts.default
+        }),
         fontWeight: theme.fontWeights.normal,
     },
     colorTextSecondary: {
@@ -15,6 +19,9 @@ const styles = StyleSheet.create({
     },
     colorPrimary: {
         color: theme.colors.primary,
+    },
+    colorError: {
+        color: theme.colors.error,
     },
     fontSizeSubheading: {
         fontSize: theme.fontSizes.subheading,
@@ -29,6 +36,7 @@ const Text = ({ color, fontSize, fontWeight, style, ...props }) => {
         styles.text,
         color === 'textSecondary' && styles.colorTextSecondary,
         color === 'primary' && styles.colorPrimary,
+        color === 'error' && styles.colorError,
         fontSize === 'subheading' && styles.fontSizeSubheading,
         fontWeight === 'bold' && styles.fontWeightBold,
         style,
