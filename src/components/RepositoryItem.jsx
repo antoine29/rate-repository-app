@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import { SubTitle, TextBody} from './Text'
+import { SubTitle, TextBody} from './Text';
 const RepositoryItem = ({ item }) => {
   return (
     <View>

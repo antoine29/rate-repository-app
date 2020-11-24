@@ -1,6 +1,7 @@
 import React from 'react';
-import { FlatList, View, StyleSheet, TouchableHighlight, Image, Text } from 'react-native';
-import { Avatar, Card, Chip, Subheading, Headline, Paragraph } from 'react-native-paper';
+// import { FlatList, View, StyleSheet, TouchableHighlight, Image, Text } from 'react-native';
+import { FlatList, View, StyleSheet, TouchableHighlight, Image } from 'react-native';
+import { Avatar, Card, Chip, Subheading, Headline, Paragraph, Text } from 'react-native-paper';
 import RepositoryItem from './RepositoryItem';
 
 const styles = StyleSheet.create({
@@ -101,7 +102,6 @@ const repositories = [
 const ItemSeparator = () => <View style={styles.separator} />;
 
 const RepositoryList = () => {
-  // const latItemFixStyle = [index === repositories.length-1 && styles.lastItemFix ];
   const latItemFixStyle = [true && styles.lastItemFix ];
   return (
     <FlatList
