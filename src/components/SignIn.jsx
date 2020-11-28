@@ -4,6 +4,7 @@ import { Button } from 'react-native-paper';
 import * as yup from 'yup';
 import { Formik, useField } from 'formik';
 import FormikTextInput from './signForm/FormikTextInput';
+import useSigIn from '../hooks/useSignIn';
 
 const initialValues = {
     user: '',
@@ -16,9 +17,6 @@ const styles = StyleSheet.create({
     }
 });
 
-const onSubmit = values => {
-    console.log(values);
-};
 
 const SignInForm = ({ onSubmit }) => {
     return (
@@ -33,15 +31,29 @@ const SignInForm = ({ onSubmit }) => {
 };
 
 const SignIn = () => {
+    const { signIn } = useSigIn();
     const yup = require('yup');
+    
+    const onSubmit = async ({user, password}) => {
+        try{
+            const result = await signIn(user, password);
+            if(result === undefined) throw 'Communication error. Try again';
+            console.log(result);
+        }
+        catch(error){
+            console.log('Error:', error);
+        }
+    };
+    
+
     const validationSchema = yup.object().shape({
         user: yup
           .string()
-          .length(3, 'User must be length greater than three charachters')
+        //   .length(3, 'User must be length greater than three charachters')
           .required('User is required'),
         password: yup
           .string()
-          .length(3, 'Password must be length greater than three charachters')
+        //   .length(3, 'Password must be length greater than three charachters')
           .required('Password is required'),
     });
 
