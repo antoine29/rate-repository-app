@@ -1,7 +1,8 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { BottomNavigation, Text } from 'react-native-paper';
 import { useHistory } from "react-router-native";
+import Toast from './Toast';
 
 const MusicRoute = () => <Text>Music</Text>;
 
@@ -22,17 +23,19 @@ const BottomBar = () => {
         recents: RecentsRoute,
       });
     return (
-        <BottomNavigation
-            style={styles.bottomBar}
-            navigationState={{ index, routes }}
-            onIndexChange={setIndex}
-            renderScene={({ route, jumpTo }) => null}
-            onTabPress={({route}) => {
-                console.log('going to:', route.path);
-                history.push(route.path);
-            }}
-            
-        />
+        <View style={styles.bottomBar}>
+            <Toast />
+            <BottomNavigation
+                style={styles.bar}
+                navigationState={{ index, routes }}
+                onIndexChange={setIndex}
+                renderScene={({ route, jumpTo }) => null}
+                onTabPress={({route}) => {
+                    console.log('going to:', route.path);
+                    history.push(route.path);
+                }}
+            />
+        </View>
     );
 };
 
@@ -42,9 +45,12 @@ const styles = StyleSheet.create({
     bottomBar: {
         elevation: 8,
         position: 'absolute',
-        height: 56,
+        // height: 95,
         left: 0,
         bottom: 0,
         right: 0
+    },
+    bar: {
+        height: 56,
     }
 });

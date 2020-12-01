@@ -7,7 +7,6 @@ import SignIn from './SignIn';
 import AppBar from './AppBar';
 import BottomBar from './BottomBar';
 
-
 const styles = StyleSheet.create({
   container: {
     // backgroundColor: theme.colors.mainBackground,
