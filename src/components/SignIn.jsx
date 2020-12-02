@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableWithoutFeedback, View } from 'react-native';
 import { Button } from 'react-native-paper';
 import { useHistory } from 'react-router-native';
@@ -8,6 +8,7 @@ import FormikTextInput from './signForm/FormikTextInput';
 import useSigIn from '../hooks/useSignIn';
 import AuthStorageContext from '../contexts/AuthStorageContext';
 import * as yup from 'yup';
+import Toast from '../components/Toast';
 
 const initialValues = {
     user: '',
@@ -35,17 +36,24 @@ const SignInForm = ({ onSubmit }) => {
 
 const SignIn = () => {
     // const authStorage = useContext(AuthStorageContext);
+    const [errorMessage, setErrorMessage] = useState('');
     const apolloClient = useApolloClient();
     const history = useHistory();
     const context = useContext(AuthStorageContext);
     const { signIn } = useSigIn();
     const yup = require('yup');
     
+    const showErrorMessage = message => {
+        setErrorMessage(message);
+        setTimeout(() => {
+            setErrorMessage('');
+        }, 3000);
+    };
+
     const onSubmit = async ({user, password}) => {
         try{
             const result = await signIn(user, password);
-            if(result === undefined) throw 'Communication error. Try again';
-            console.log('result:', result);
+            if(result === undefined) throw {message: 'Communication error. Try again'};
             // await authStorage.setAccessToken(result.authorize.accessToken);
             await context.authStorage.setAccessToken(result.authorize.accessToken);
             // const storedToken = await authStorage.getAccessToken();
@@ -56,8 +64,9 @@ const SignIn = () => {
             history.push('/');
         }
         catch(error){
-            console.log('Error:', error);
-            context.toastMessage = 'ERROR';
+            console.log('error:', error);
+            console.log('error.message:', error.message);
+            showErrorMessage(error.message);
         }
     };
     
@@ -74,12 +83,17 @@ const SignIn = () => {
     });
 
     return (
+        <>
         <Formik
+            // style={{elevation :0}}
             initialValues={initialValues}
             onSubmit={onSubmit}
             validationSchema={validationSchema}>
             {({ handleSubmit }) => <SignInForm onSubmit={handleSubmit} />}
         </Formik>
+        {/* <Toast message={'HIIIII'}/> */}
+        {errorMessage !== '' && <Text>{errorMessage}</Text>}
+        </>
     );
 };
 

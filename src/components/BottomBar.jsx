@@ -5,7 +5,7 @@ import { useHistory, useLocation } from "react-router-native";
 import { useApolloClient } from '@apollo/client';
 import useAuthorizedUser from '../hooks/useAuthorizedUser';
 import AuthStorageContext from '../contexts/AuthStorageContext';
-import Toast from './Toast';
+// import Toast from './Toast';
 
 const MusicRoute = () => <Text>Music</Text>;
 
@@ -67,27 +67,24 @@ const BottomBar = () => {
     });
 
     return (
-        <View style={styles.bottomBar}>
-            <Toast />
-            <BottomNavigation
-                style={styles.bar}
-                navigationState={{ index, routes }}
-                onIndexChange={setIndex}
-                renderScene={({ route, jumpTo }) => null}
-                onTabPress={({route}) => {
-                    const deleteToken = async() => {
-                        await context.authStorage.removeAccessToken();
-                        await apolloClient.resetStore();
-                    };
-                    
-                    if(route.path === '/signIn')
-                        if(authorizedUser)
-                            deleteToken();
-                    
-                    history.push(route.path);
-                }}
-            />
-        </View>
+        <BottomNavigation
+            style={styles.bottomBar}
+            navigationState={{ index, routes }}
+            onIndexChange={setIndex}
+            renderScene={({ route, jumpTo }) => null}
+            onTabPress={({route}) => {
+                const deleteToken = async() => {
+                    await context.authStorage.removeAccessToken();
+                    await apolloClient.resetStore();
+                };
+                
+                if(route.path === '/signIn')
+                    if(authorizedUser)
+                        deleteToken();
+                
+                history.push(route.path);
+            }}
+        />
     );
 };
 
@@ -98,6 +95,7 @@ const styles = StyleSheet.create({
         elevation: 8,
         position: 'absolute',
         // height: 95,
+        height: 65,
         left: 0,
         bottom: 0,
         right: 0
