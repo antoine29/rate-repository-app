@@ -1,11 +1,13 @@
 import React, { useContext } from 'react';
 import { StyleSheet, Text, TextInput, TouchableWithoutFeedback, View } from 'react-native';
 import { Button } from 'react-native-paper';
-import * as yup from 'yup';
+import { useHistory } from 'react-router-native';
 import { Formik, useField } from 'formik';
+import { useApolloClient } from '@apollo/client';
 import FormikTextInput from './signForm/FormikTextInput';
 import useSigIn from '../hooks/useSignIn';
 import AuthStorageContext from '../contexts/AuthStorageContext';
+import * as yup from 'yup';
 
 const initialValues = {
     user: '',
@@ -33,6 +35,8 @@ const SignInForm = ({ onSubmit }) => {
 
 const SignIn = () => {
     // const authStorage = useContext(AuthStorageContext);
+    const apolloClient = useApolloClient();
+    const history = useHistory();
     const context = useContext(AuthStorageContext);
     const { signIn } = useSigIn();
     const yup = require('yup');
@@ -48,6 +52,8 @@ const SignIn = () => {
             const storedToken = await context.authStorage.getAccessToken();
             console.log('Stored token:', storedToken);
             context.toastMessage = 'SignIn OK';
+            apolloClient.resetStore();
+            history.push('/');
         }
         catch(error){
             console.log('Error:', error);
