@@ -1,40 +1,20 @@
 import React, { useContext, useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableWithoutFeedback, View } from 'react-native';
-import { Button } from 'react-native-paper';
 import { useHistory } from 'react-router-native';
 import { Formik, useField } from 'formik';
 import { useApolloClient } from '@apollo/client';
-import FormikTextInput from './signForm/FormikTextInput';
 import useSigIn from '../hooks/useSignIn';
 import AuthStorageContext from '../contexts/AuthStorageContext';
 import * as yup from 'yup';
-import Toast from '../components/Toast';
+import Toast from './Toast';
+import SignInForm from './SignInForm';
 
 const initialValues = {
     user: '',
     password: '',
 };
 
-const styles = StyleSheet.create({
-    form: {
-        margin: 15
-    }
-});
-
-
-const SignInForm = ({ onSubmit }) => {
-    return (
-        <View style={styles.form}>
-            <FormikTextInput name='user' label='user' placeholder='user' />
-            <FormikTextInput name='password' label='password' placeholder='password' />
-            <Button onPress={onSubmit} mode='contained'>
-                SignIn
-            </Button>
-        </View>
-    );
-};
-
-const SignIn = () => {
+const SignInFormContainer = () => {
     // const authStorage = useContext(AuthStorageContext);
     const [errorMessage, setErrorMessage] = useState('');
     const apolloClient = useApolloClient();
@@ -84,17 +64,14 @@ const SignIn = () => {
 
     return (
         <>
-        <Formik
-            // style={{elevation :0}}
+        <SignInForm
             initialValues={initialValues}
-            onSubmit={onSubmit}
-            validationSchema={validationSchema}>
-            {({ handleSubmit }) => <SignInForm onSubmit={handleSubmit} />}
-        </Formik>
+            validationSchema={validationSchema}
+            onSubmit={onSubmit} />
         {/* <Toast message={'HIIIII'}/> */}
         {errorMessage !== '' && <Text>{errorMessage}</Text>}
         </>
     );
 };
 
-export default SignIn;
+export default SignInFormContainer;
