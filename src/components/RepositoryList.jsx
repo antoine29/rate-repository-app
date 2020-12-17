@@ -3,14 +3,14 @@ import useRepositories from '../hooks/useRepositories';
 import RepositoryListContainer from './RepositoryListContainer';
 
 const RepositoryList = () => {
-  const { repositories } = useRepositories();
+  const { response } = useRepositories();
 
   // Get the nodes from the edges array
-  const repositoryNodes = repositories && repositories.edges ?
-    repositories.edges.map(edge => edge.node) : [];
+  const repositories = response && response.edges ?
+    response.edges.map(edge => edge.node) : [];
 
   return (
-    <RepositoryListContainer repositories={ repositoryNodes } />
+    <RepositoryListContainer repositories={ repositories } />
   );
 };
 

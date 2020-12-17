@@ -44,7 +44,7 @@ const RepositoryListContainer = ({repositories}) => {
 
 const RepoCard = ({ repo }) => {
   return (
-    <Card>
+    <Card testID={`repo-${repo.id}`}>
       <Card.Title
         title={repo.fullName}
         subtitle={repo.description}

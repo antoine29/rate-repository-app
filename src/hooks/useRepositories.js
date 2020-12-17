@@ -7,7 +7,7 @@ const useRepositories = () => {
     });
 
     if (loading || !data ) return { repositories: [], loading };
-    return { repositories: data.repositories, loading };
+    return { response: data.repositories, loading };
 };
 
 export default useRepositories;
