@@ -39,7 +39,21 @@ export const GET_REPOSITORY = gql`
       description,
       language,
       ownerAvatarUrl,
-      url
+      url,
+      reviews{
+        edges{
+          node{
+            id,
+            rating,
+            text,
+            createdAt,
+            user{
+              id,
+              username
+            }
+          }
+        }
+      }
     }
   }
 `;

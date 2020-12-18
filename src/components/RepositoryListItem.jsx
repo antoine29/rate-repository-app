@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, Image } from 'react-native';
-import { Button, Card, Text } from 'react-native-paper';
-import { useHistory, useLocation } from "react-router-native";
+import { Button, Card, Text, Avatar } from 'react-native-paper';
+import { useHistory } from "react-router-native";
 import * as WebBrowser from 'expo-web-browser';
 
 const styles = StyleSheet.create({
@@ -32,19 +32,16 @@ const styles = StyleSheet.create({
 
 const RepositoryListItem = ({ repository, showGoToRepoBttn }) => {
   const history = useHistory();
-  if(repository){
+  if (repository) {
     console.log('printing repo:', repository);
     return (
-      <Card testID={`repo-${repository.id}`} onPress={()=>{console.log('going'); history.push(`/repositories/${repository.id}`);}} >
-        <View >
+      <Card testID={`repo-${repository.id}`} onPress={() => { console.log('going'); history.push(`/repositories/${repository.id}`); }} >
         <Card.Title
           title={repository.fullName}
           subtitle={repository.description}
           left={() => <Image style={styles.avatarPic} source={{ uri: repository.ownerAvatarUrl }} />}
         // right={(props) => <IconButton {...props} icon="more-vert" onPress={() => { }} />}
         />
-  
-        </View>
         <Card.Content>
           <View style={styles.row}>
             <View style={{ width: '10%', backgroundColor: '#FFFFFF' }} />
@@ -60,17 +57,17 @@ const RepositoryListItem = ({ repository, showGoToRepoBttn }) => {
             <RepoChip bold={repository.reviewCount} content={"Reviews"} />
             <RepoChip bold={repository.ratingAverage} content={"Rating"} />
           </View>
-        </Card.Content>
-        {showGoToRepoBttn &&
-          <Card.Actions>
-            <Button mode='contained' compact dark>Add review</Button>
-            <Button mode='contained' compact dark onPress={()=>{
-              WebBrowser.openBrowserAsync(repository.url);
-              // console.log('openning:', repository.url);
-              }}>
+          {showGoToRepoBttn &&
+          <>
+            <Card.Actions>
+              <Button mode='contained' compact dark>Add review</Button>
+              <Button mode='contained' compact dark onPress={() => {WebBrowser.openBrowserAsync(repository.url);}}>
                 Open in github
-            </Button>
-          </Card.Actions>}
+              </Button>
+            </Card.Actions>
+            {repository.reviews.edges.map(({node}) => <RepositoryReview key={node.id} review={node} />)}
+          </>}
+        </Card.Content>
       </Card>
     );
   }
@@ -88,6 +85,25 @@ const RepoChip = ({ bold, content }) => {
         {content}
       </Text>
     </View>
+  );
+};
+
+const RepositoryReview = ({review}) => {
+  console.log('printing review:', review.createdAt);
+  return(
+    <Card>
+      <Card.Title
+        title={review.user.username}
+        subtitle={new Date(review.createdAt).toLocaleDateString('en-us')}
+        left={() => <Avatar.Text size={40} label={review.rating} />}
+        // right={(props) => <IconButton {...props} icon="more-vert" onPress={() => { }} />}
+      />
+      <Card.Content>
+        <Text>
+          {review.text}
+        </Text>
+      </Card.Content>
+    </Card>
   );
 };
 
