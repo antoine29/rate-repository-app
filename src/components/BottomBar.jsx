@@ -50,6 +50,7 @@ const BottomBar = () => {
         switch(route){
             case routes[0].path: return 0;
             case routes[1].path: return 1;
+            default: return 0;
         }
     };
 

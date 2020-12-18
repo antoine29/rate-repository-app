@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, StyleSheet, Image } from 'react-native';
-import { Card, Text } from 'react-native-paper';
+import { Button, Card, Text } from 'react-native-paper';
+import { useHistory, useLocation } from "react-router-native";
+import * as WebBrowser from 'expo-web-browser';
 
 const styles = StyleSheet.create({
   row: {
@@ -28,33 +30,52 @@ const styles = StyleSheet.create({
   }
 });
 
-const RepositoryListItem = ({ repository }) => {
-  return (
-    <Card testID={`repo-${repository.id}`}>
-      <Card.Title
-        title={repository.fullName}
-        subtitle={repository.description}
-        left={() => <Image style={styles.avatarPic} source={{ uri: repository.ownerAvatarUrl }} />}
-      // right={(props) => <IconButton {...props} icon="more-vert" onPress={() => { }} />}
-      />
-      <Card.Content>
-        <View style={styles.row}>
-          <View style={{ width: '10%', backgroundColor: '#FFFFFF' }} />
-          <View style={{ backgroundColor: '#4711BA', borderRadius: 5 }}>
-            <Text style={{ padding: 5 }}>
-              {repository.language}
-            </Text>
+const RepositoryListItem = ({ repository, showGoToRepoBttn }) => {
+  const history = useHistory();
+  if(repository){
+    console.log('printing repo:', repository);
+    return (
+      <Card testID={`repo-${repository.id}`} onPress={()=>{console.log('going'); history.push(`/repositories/${repository.id}`);}} >
+        <View >
+        <Card.Title
+          title={repository.fullName}
+          subtitle={repository.description}
+          left={() => <Image style={styles.avatarPic} source={{ uri: repository.ownerAvatarUrl }} />}
+        // right={(props) => <IconButton {...props} icon="more-vert" onPress={() => { }} />}
+        />
+  
+        </View>
+        <Card.Content>
+          <View style={styles.row}>
+            <View style={{ width: '10%', backgroundColor: '#FFFFFF' }} />
+            <View style={{ backgroundColor: '#4711BA', borderRadius: 5 }}>
+              <Text style={{ padding: 5 }}>
+                {repository.language}
+              </Text>
+            </View>
           </View>
-        </View>
-        <View style={[styles.row, styles.chipRow]}>
-          <RepoChip bold={repository.stargazersCount} content={"Stars"} />
-          <RepoChip bold={repository.forksCount} content={"Forks"} />
-          <RepoChip bold={repository.reviewCount} content={"Reviews"} />
-          <RepoChip bold={repository.ratingAverage} content={"Rating"} />
-        </View>
-      </Card.Content>
-    </Card>
-  );
+          <View style={[styles.row, styles.chipRow]}>
+            <RepoChip bold={repository.stargazersCount} content={"Stars"} />
+            <RepoChip bold={repository.forksCount} content={"Forks"} />
+            <RepoChip bold={repository.reviewCount} content={"Reviews"} />
+            <RepoChip bold={repository.ratingAverage} content={"Rating"} />
+          </View>
+        </Card.Content>
+        {showGoToRepoBttn &&
+          <Card.Actions>
+            <Button mode='contained' compact dark>Add review</Button>
+            <Button mode='contained' compact dark onPress={()=>{
+              WebBrowser.openBrowserAsync(repository.url);
+              // console.log('openning:', repository.url);
+              }}>
+                Open in github
+            </Button>
+          </Card.Actions>}
+      </Card>
+    );
+  }
+
+  return null;
 };
 
 const RepoChip = ({ bold, content }) => {
