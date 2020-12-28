@@ -33,7 +33,6 @@ const styles = StyleSheet.create({
 const RepositoryListItem = ({ repository, showGoToRepoBttn }) => {
   const history = useHistory();
   if (repository) {
-    console.log('printing repo:', repository);
     return (
       <Card testID={`repo-${repository.id}`} onPress={() => { console.log('going'); history.push(`/repositories/${repository.id}`); }} >
         <Card.Title
