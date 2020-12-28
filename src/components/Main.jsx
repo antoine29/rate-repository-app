@@ -4,6 +4,7 @@ import { Route, Switch, Redirect } from 'react-router-native';
 import RepositoryListContainer from './RepositoryListContainer';
 import RepositoryListItemContainer from './RepositoryListItemContainer';
 import SignInFormContainer from './SignInFormContainer';
+import AddReviewFormContainer from './AddReviewFormContainer';
 import AppBar from './AppBar';
 import BottomBar from './BottomBar';
 
@@ -29,6 +30,9 @@ const Main = () => {
         </Route>
         <Route path='/repositories/:id' exact>
           <RepositoryListItemContainer />
+        </Route>
+        <Route path='/addReview' exact>
+          <AddReviewFormContainer />
         </Route>
         <Route path='/signIn' exact>
           <SignInFormContainer />

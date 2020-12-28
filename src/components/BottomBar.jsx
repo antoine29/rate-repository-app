@@ -21,7 +21,8 @@ const BottomBar = () => {
     const authorizedUser = useAuthorizedUser();
     const [index, setIndex] = React.useState(0);
     const [routes, setRoutes] = React.useState([
-        { key: 'repos', title: 'Repos', icon: 'source-repository', path: '/' },
+        { key: 'repos', title: 'Repos', icon: 'source-repository', path: '/repositories' },
+        { key: 'addReview', title: 'Add Review', icon: 'plus-box', path: '/addReview' },
         { key: 'signIn', title: 'Sign in', icon: 'account', path: '/signIn' }
     ]);
 
