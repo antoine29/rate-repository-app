@@ -34,7 +34,7 @@ const RepositoryListItem = ({ repository, showGoToRepoBttn }) => {
   const history = useHistory();
   if (repository) {
     return (
-      <Card testID={`repo-${repository.id}`} onPress={() => { console.log('going'); history.push(`/repositories/${repository.id}`); }} >
+      <Card testID={`repo-${repository.id}`} onPress={() => { console.log(`going to ${repository.id}`); history.push(`/repositories/${repository.id}`); }} >
         <Card.Title
           title={repository.fullName}
           subtitle={repository.description}
