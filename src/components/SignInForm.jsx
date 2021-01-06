@@ -13,8 +13,8 @@ const Form = ({ onSubmit }) => {
     
     return (
         <View style={styles.form}>
-            <FormikTextInput name='user' label='user' placeholder='user' testID='userNameField' />
-            <FormikTextInput name='password' label='password' placeholder='password' testID='passwordField' />
+            <FormikTextInput name='user' label='user' placeholder='' testID='userNameField' />
+            <FormikTextInput name='password' label='password' placeholder='' testID='passwordField' />
             <Button onPress={onSubmit} mode='contained' testID='submitButton'>
                 SignIn
             </Button>
