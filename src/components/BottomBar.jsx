@@ -1,16 +1,13 @@
 import React, { useEffect, useContext } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { BottomNavigation, Text } from 'react-native-paper';
 import { useHistory, useLocation } from "react-router-native";
 import { useApolloClient } from '@apollo/client';
 import useAuthorizedUser from '../hooks/useAuthorizedUser';
 import AuthStorageContext from '../contexts/AuthStorageContext';
-// import Toast from './Toast';
 
 const MusicRoute = () => <Text>Music</Text>;
-
 const AlbumsRoute = () => <Text>Albums</Text>;
-
 const RecentsRoute = () => <Text>Recents</Text>;
 
 const BottomBar = () => {
@@ -20,46 +17,39 @@ const BottomBar = () => {
     const location = useLocation();
     const authorizedUser = useAuthorizedUser();
     const [index, setIndex] = React.useState(0);
-    const [routes, setRoutes] = React.useState([
-        { key: 'repos', title: 'Repos', icon: 'source-repository', path: '/repositories' },
-        { key: 'addReview', title: 'Add Review', icon: 'plus-box', path: '/addReview' },
-        { key: 'signIn', title: 'Sign in', icon: 'account', path: '/signIn' }
-    ]);
-
-    const checkTabs = () => {
-        const routesWithSignOut = route =>
-            route.key === 'signIn' && route.title === 'Sign in' ?
-                { ...route, title: 'Sign out'} : route;
-
-        const routesWithSingIn = route =>
-            route.key === 'signIn' && route.title === 'Sign out' ?
-                { ...route, title: 'Sign in'} : route;
-        
-        let _routes = [];
-        if(authorizedUser) {
-            _routes = authorizedUser.authorizedUser !== null ?
-                routes.map(routesWithSignOut) : routes.map(routesWithSingIn);
-        }
-        else{
-            _routes = routes.map(routesWithSingIn);
-        }
-
-        setRoutes(_routes);
+    const _tabs = [
+        { key: 'repos', title: 'Repos', icon: 'source-repository', path: '/repositories', private: false },
+        { key: 'addReview', title: 'Add Review', icon: 'plus-box', path: '/addReview', private: true },
+        { key: 'signIn', title: 'Sign in', icon: 'account', path: '/signIn', private: false },
+        { key: 'signOut', title: 'Sign out', icon: 'account', path: '/signOut', private: true }
+    ];
+    const updateTabs = () => {
+        let allowedTabs = _tabs.filter(_tab => authorizedUser.authorizedUser ? true : !_tab.private);
+        if(authorizedUser.authorizedUser) allowedTabs = _tabs.filter(_tab => _tab.key !== 'signIn');
+        return allowedTabs;
     };
+
+    let filteredTabs = updateTabs();
+    const [tabs, setTabs] = React.useState(filteredTabs);
+
+    useEffect(()=>{
+        let updatedTabs = updateTabs();
+        console.log('updated tabs:', updatedTabs);
+        setTabs(updatedTabs);
+    }, [authorizedUser.authorizedUser]);
 
     const resolveRouteTabIndex = route => {
         switch(route){
-            case routes[0].path: return 0;
-            case routes[1].path: return 1;
+            case tabs[0].path: return 0;
+            case tabs[1].path: return 1;
             default: return 0;
         }
     };
 
     useEffect(() => {
-        if(location)
-            setIndex(resolveRouteTabIndex(location.pathname));
-
-        checkTabs();
+        if(location) setIndex(resolveRouteTabIndex(location.pathname));
+        let updatedTabs = updateTabs();
+        setTabs(updatedTabs);
     }, [location, index]);
     
     const renderScene = BottomNavigation.SceneMap({
@@ -71,7 +61,7 @@ const BottomBar = () => {
     return (
         <BottomNavigation
             style={styles.bottomBar}
-            navigationState={{ index, routes }}
+            navigationState={{ index, routes: tabs }}
             onIndexChange={setIndex}
             renderScene={({ route, jumpTo }) => null}
             onTabPress={({route}) => {
@@ -80,11 +70,15 @@ const BottomBar = () => {
                     await apolloClient.resetStore();
                 };
                 
-                if(route.path === '/signIn')
-                    if(authorizedUser)
+                if(route.path === '/signOut'){
+                    if(authorizedUser){
                         deleteToken();
-                
-                history.push(route.path);
+                        history.push('/repositories');
+                    }
+                }
+                else{
+                    history.push(route.path);
+                }
             }}
         />
     );
