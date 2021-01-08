@@ -35,7 +35,6 @@ const BottomBar = () => {
 
     useEffect(()=>{
         let updatedTabs = updateTabs();
-        console.log('updated tabs:', updatedTabs);
         setTabs(updatedTabs);
     }, [authorizedUser.authorizedUser]);
 
