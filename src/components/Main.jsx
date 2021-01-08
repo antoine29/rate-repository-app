@@ -7,10 +7,12 @@ import SignInFormContainer from './SignInFormContainer';
 import SignUpFormContainer from './SignUpFormContainer';
 import AddReviewFormContainer from './AddReviewFormContainer';
 import PickOrderMenu from './PickOrderMenu';
+import SearchBar from './SearchBar';
 import AppBar from './AppBar';
 import BottomBar from './BottomBar';
 import useSortMenuVisibility from '../hooks/useSortMenuVisibility';
 import useSortMenuState from '../hooks/useSortMenuState';
+import useSearchBarState from '../hooks/useSearchBarState';
 
 const styles = StyleSheet.create({
   container: {
@@ -24,13 +26,15 @@ const styles = StyleSheet.create({
 const Main = () => {
   const  { sortMenuVisibility, toggleSortMenuVisibility, closeSortMenu } = useSortMenuVisibility();
   const  { sortMenuCriteria, setSortMenuCriteria, sortMenuDirection, setSortMenuDirection } = useSortMenuState();
+  const  { searchBarVisibility, toggleSearchBarVisibility, searchKeyword, setSearchKeyword } = useSearchBarState();
   return (
     <View style={styles.container}>
-      <AppBar toggleSortMenuVisibility={toggleSortMenuVisibility}/>
+      <AppBar toggleSortMenuVisibility={toggleSortMenuVisibility} toggleSearchBarVisibility={toggleSearchBarVisibility} />
       <PickOrderMenu sortMenuVisibility={sortMenuVisibility} closeSortMenu={closeSortMenu} setSortMenuCriteria={setSortMenuCriteria} setSortMenuDirection={setSortMenuDirection}/>
+      <SearchBar searchBarVisibility={searchBarVisibility} searchKeyword={searchKeyword} setSearchKeyword={setSearchKeyword} />
       <Switch>
         <Route path='/' exact>
-          <RepositoryListContainer sortMenuCriteria={sortMenuCriteria} sortMenu={sortMenuDirection}/>
+          <RepositoryListContainer sortMenuCriteria={sortMenuCriteria} sortMenuDirection={sortMenuDirection} searchKeyword={searchKeyword}/>
         </Route>
         <Route path='/repositories' exact>
           <RepositoryListContainer />

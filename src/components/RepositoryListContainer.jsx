@@ -3,8 +3,8 @@ import { Text } from 'react-native-paper';
 import useRepositories from '../hooks/useRepositories';
 import RepositoryList from './RepositoryList';
 
-const RepositoryListContainer = ({ sortMenuCriteria, sortMenu }) => {
-  const { response, loading } = useRepositories(sortMenuCriteria, sortMenu);
+const RepositoryListContainer = ({ sortMenuCriteria, sortMenuDirection, searchKeyword }) => {
+  const { response, loading } = useRepositories(sortMenuCriteria, sortMenuDirection, searchKeyword);
 
   if(loading) return(<Text>Loading...</Text>);
 
