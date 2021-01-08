@@ -2,7 +2,7 @@ import * as React from 'react';
 import { StyleSheet } from 'react-native';
 import { Appbar } from 'react-native-paper';
 
-const AppBar = () => {
+const AppBar = ({ toggleSortMenuVisibility }) => {
     return (
         <Appbar.Header style={styles.appBar}>
         {/* <Appbar.Header style={styles.appBar}> */}
@@ -12,6 +12,7 @@ const AppBar = () => {
             <Appbar.Content title="Repo App" subtitle="Subtitle" />
             {/* <Appbar.Action icon="magnify" onPress={_handleSearch} /> */}
             <Appbar.Action icon="magnify" />
+            <Appbar.Action icon="sort" onPress={() => {toggleSortMenuVisibility();}}/>
             {/* <Appbar.Action icon="dots-vertical" onPress={_handleMore} /> */}
             {/* <Appbar.Action icon="dots-vertical" /> */}
         {/* </Appbar> */}

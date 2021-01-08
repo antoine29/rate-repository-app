@@ -1,13 +1,16 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import { Route, Switch, Redirect } from 'react-router-native';
 import RepositoryListContainer from './RepositoryListContainer';
 import RepositoryListItemContainer from './RepositoryListItemContainer';
 import SignInFormContainer from './SignInFormContainer';
 import SignUpFormContainer from './SignUpFormContainer';
 import AddReviewFormContainer from './AddReviewFormContainer';
+import PickOrderMenu from './PickOrderMenu';
 import AppBar from './AppBar';
 import BottomBar from './BottomBar';
+import useSortMenuVisibility from '../hooks/useSortMenuVisibility';
+import useSortMenuState from '../hooks/useSortMenuState';
 
 const styles = StyleSheet.create({
   container: {
@@ -19,12 +22,15 @@ const styles = StyleSheet.create({
 });
 
 const Main = () => {
+  const  { sortMenuVisibility, toggleSortMenuVisibility, closeSortMenu } = useSortMenuVisibility();
+  const  { sortMenuCriteria, setSortMenuCriteria, sortMenuDirection, setSortMenuDirection } = useSortMenuState();
   return (
     <View style={styles.container}>
-      <AppBar />
+      <AppBar toggleSortMenuVisibility={toggleSortMenuVisibility}/>
+      <PickOrderMenu sortMenuVisibility={sortMenuVisibility} closeSortMenu={closeSortMenu} setSortMenuCriteria={setSortMenuCriteria} setSortMenuDirection={setSortMenuDirection}/>
       <Switch>
         <Route path='/' exact>
-          <RepositoryListContainer />
+          <RepositoryListContainer sortMenuCriteria={sortMenuCriteria} sortMenu={sortMenuDirection}/>
         </Route>
         <Route path='/repositories' exact>
           <RepositoryListContainer />
