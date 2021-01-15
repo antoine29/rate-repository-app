@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import { FlatList, View, StyleSheet } from 'react-native';
-import { Card, Text, Avatar } from 'react-native-paper';
+import { Text } from 'react-native-paper';
 import { useParams } from 'react-router-native';
 import useRepository from '../hooks/useRepository';
 import useRepoReviews from '../hooks/useRepoReviews';
 import RepositoryListItem from './RepositoryListItem';
+import RepositoryReview from './RepositoryReview';
 
 const styles = StyleSheet.create({
   row: {
@@ -71,22 +72,6 @@ const RepositoryListItemContainer = () => {
   }
 
   return null;
-};
-
-const RepositoryReview = ({ review }) => {
-  return (
-    <Card>
-      <Card.Title
-        title={review.user.username}
-        subtitle={new Date(review.createdAt).toLocaleDateString('en-us')}
-        left={() => <Avatar.Text size={40} label={review.rating} />}
-      // right={(props) => <IconButton {...props} icon="more-vert" onPress={() => { }} />}
-      />
-      <Card.Content>
-        <Text>{review.text}</Text>
-      </Card.Content>
-    </Card>
-  );
 };
 
 export default RepositoryListItemContainer;
