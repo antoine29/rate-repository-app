@@ -6,6 +6,7 @@ import RepositoryListItemContainer from './RepositoryListItemContainer';
 import SignInFormContainer from './SignInFormContainer';
 import SignUpFormContainer from './SignUpFormContainer';
 import AddReviewFormContainer from './AddReviewFormContainer';
+import ReviewListContainer from './ReviewListContainer';
 import PickOrderMenu from './PickOrderMenu';
 import SearchBar from './SearchBar';
 import AppBar from './AppBar';
@@ -44,6 +45,9 @@ const Main = () => {
         </Route>
         <Route path='/addReview' exact>
           <AddReviewFormContainer />
+        </Route>
+        <Route path='/myReviews' exact>
+          <ReviewListContainer />
         </Route>
         <Route path='/signIn' exact>
           <SignInFormContainer />

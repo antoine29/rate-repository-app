@@ -19,10 +19,11 @@ const BottomBar = () => {
     const [index, setIndex] = React.useState(0);
     const _tabs = [
         { key: 'repos', title: 'Repos', icon: 'source-repository', path: '/repositories', private: false },
-        { key: 'addReview', title: 'Add Review', icon: 'plus-box', path: '/addReview', private: true },
-        { key: 'signIn', title: 'Sign in', icon: 'account-key', path: '/signIn', private: false },
-        { key: 'signOut', title: 'Sign out', icon: 'account-remove', path: '/signOut', private: true },
-        { key: 'signUp', title: 'Sign up', icon: 'account-plus', path: '/signUp', private: false },
+        { key: 'myReviews', title: 'My Reviews', icon: 'message-draw', path: '/myReviews', private: true },
+        { key: 'addReview', title: 'Add Review', icon: 'message-plus', path: '/addReview', private: true },
+        { key: 'signIn', title: 'SignIn', icon: 'account-key', path: '/signIn', private: false },
+        { key: 'signOut', title: 'SignOut', icon: 'account-remove', path: '/signOut', private: true },
+        { key: 'signUp', title: 'SignUp', icon: 'account-plus', path: '/signUp', private: false },
     ];
     const updateTabs = () => {
         let allowedTabs = _tabs.filter(_tab => authorizedUser.authorizedUser ? true : !_tab.private);
