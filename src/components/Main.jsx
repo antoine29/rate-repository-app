@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
+import { Portal } from 'react-native-paper';
 import { Route, Switch, Redirect } from 'react-router-native';
 import RepositoryListContainer from './RepositoryListContainer';
 import RepositoryListItemContainer from './RepositoryListItemContainer';
@@ -22,6 +23,14 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     flexShrink: 1,
   },
+  portalView: {
+    display: 'flex',
+    flexDirection: 'column',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
+  
 });
 
 const Main = () => {
@@ -31,7 +40,14 @@ const Main = () => {
   return (
     <View style={styles.container}>
       <AppBar toggleSortMenuVisibility={toggleSortMenuVisibility} toggleSearchBarVisibility={toggleSearchBarVisibility} />
-      <PickOrderMenu sortMenuVisibility={sortMenuVisibility} closeSortMenu={closeSortMenu} setSortMenuCriteria={setSortMenuCriteria} setSortMenuDirection={setSortMenuDirection}/>
+      <Portal>
+        <View style={styles.portalView}>
+          <PickOrderMenu
+            sortMenuVisibility={sortMenuVisibility} closeSortMenu={closeSortMenu}
+            sortMenuCriteria={sortMenuCriteria} setSortMenuCriteria={setSortMenuCriteria}
+            sortMenuDirection={sortMenuDirection} setSortMenuDirection={setSortMenuDirection} />
+        </View>
+      </Portal>
       <SearchBar searchBarVisibility={searchBarVisibility} searchKeyword={searchKeyword} setSearchKeyword={setSearchKeyword} />
       <Switch>
         <Route path='/' exact>
