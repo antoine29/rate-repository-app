@@ -1,6 +1,5 @@
 import React from 'react';
 import { FlatList, View, StyleSheet, Image } from 'react-native';
-import { Card, Text } from 'react-native-paper';
 import RepositoryListItem from './RepositoryListItem';
 
 const styles = StyleSheet.create({
@@ -37,7 +36,6 @@ const RepositoryList = ({repositories}) => {
       data={repositories}
       ItemSeparatorComponent={ItemSeparator}
       renderItem={({ item, index }) =>
-        // <RepoCard key={index} repo={item} />
         <RepositoryListItem key={index} repository={item} />
       }
     />

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet, Image, FlatList } from 'react-native';
 import { Button, Card, Text, Avatar } from 'react-native-paper';
 import { useHistory } from "react-router-native";
 import * as WebBrowser from 'expo-web-browser';
@@ -57,15 +57,11 @@ const RepositoryListItem = ({ repository, showGoToRepoBttn }) => {
             <RepoChip bold={repository.ratingAverage} content={"Rating"} />
           </View>
           {showGoToRepoBttn &&
-          <>
             <Card.Actions>
-              <Button mode='contained' compact dark>Add review</Button>
-              <Button mode='contained' compact dark onPress={() => {WebBrowser.openBrowserAsync(repository.url);}}>
-                Open in github
-              </Button>
+              <Button mode='contained' compact dark onPress={()=>{console.log(repository.reviews.edges);}}>Add review</Button>
+              <Button mode='contained' compact dark onPress={() => {WebBrowser.openBrowserAsync(repository.url);}}>Open in github</Button>
             </Card.Actions>
-            {repository.reviews.edges.map(({node}) => <RepositoryReview key={node.id} review={node} />)}
-          </>}
+          }
         </Card.Content>
       </Card>
     );
@@ -84,25 +80,6 @@ const RepoChip = ({ bold, content }) => {
         {content}
       </Text>
     </View>
-  );
-};
-
-const RepositoryReview = ({review}) => {
-  console.log('printing review:', review.createdAt);
-  return(
-    <Card>
-      <Card.Title
-        title={review.user.username}
-        subtitle={new Date(review.createdAt).toLocaleDateString('en-us')}
-        left={() => <Avatar.Text size={40} label={review.rating} />}
-        // right={(props) => <IconButton {...props} icon="more-vert" onPress={() => { }} />}
-      />
-      <Card.Content>
-        <Text>
-          {review.text}
-        </Text>
-      </Card.Content>
-    </Card>
   );
 };
 
