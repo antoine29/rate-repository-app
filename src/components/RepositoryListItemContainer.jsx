@@ -40,6 +40,14 @@ const RepositoryListItemContainer = () => {
   const [getRepository, { loading: getRepositoryLoading, data: getRepositoryData, error: getRepositoryError }] = useRepository();
   const { reviews, fetchNextReviewPage, loading, error } = useRepoReviews();
 
+  useEffect(()=>{
+    console.log(`setting repoView after page reRendering ${id}`);
+    if (id !== null) {
+      getRepository({ variables: { id: id } });
+      fetchNextReviewPage(id);
+    }
+  }, []);
+
   useEffect(() => {
     console.log(`setting repoView ${id}`);
     if (id !== null) {
