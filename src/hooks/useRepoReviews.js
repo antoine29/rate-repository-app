@@ -4,7 +4,7 @@ import { GET_REPOSITORY } from '../graphql/queries';
 
 const useRepoReviews = () => {
     const [reviews, setReviews] = useState([]);
-    const [getRepo, { loading, data, error }] = useLazyQuery(GET_REPOSITORY, { fetchPolicy: 'cache-and-network' });
+    const [getRepo, { loading, data, error }] = useLazyQuery(GET_REPOSITORY, { fetchPolicy: 'no-cache' });
 
     useEffect(()=>{
         if(data && data.repository){
