@@ -56,10 +56,11 @@ const Main = () => {
       <SearchBar searchBarVisibility={searchBarVisibility} searchKeyword={searchKeyword} setSearchKeyword={setSearchKeyword} />
       <Switch>
         <Route path='/' exact>
+          {/* ToDo: enhance this with a redirect directive */}
           <RepositoryListContainer sortMenuCriteria={sortMenuCriteria} sortMenuDirection={sortMenuDirection} searchKeyword={searchKeyword}/>
         </Route>
         <Route path='/repositories' exact>
-          <RepositoryListContainer />
+          <RepositoryListContainer sortMenuCriteria={sortMenuCriteria} sortMenuDirection={sortMenuDirection} searchKeyword={searchKeyword}/>
         </Route>
         <Route path='/repositories/:id' exact>
           <RepositoryListItemContainer />

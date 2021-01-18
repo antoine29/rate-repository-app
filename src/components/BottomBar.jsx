@@ -18,7 +18,7 @@ const BottomBar = () => {
     const authorizedUser = useAuthorizedUser();
     const [index, setIndex] = React.useState(0);
     const _tabs = [
-        { key: 'repos', title: 'Repos', icon: 'source-repository', path: '/repositories', private: false },
+        { key: 'repos', title: 'Repos', icon: 'source-repository-multiple', path: '/repositories', private: false },
         { key: 'myReviews', title: 'My Reviews', icon: 'message-draw', path: '/myReviews', private: true },
         { key: 'addReview', title: 'Add Review', icon: 'message-plus', path: '/addReview', private: true },
         { key: 'signIn', title: 'SignIn', icon: 'account-key', path: '/signIn', private: false },
