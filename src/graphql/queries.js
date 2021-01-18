@@ -1,7 +1,7 @@
 import { gql } from 'apollo-boost';
 
 export const GET_REPOSITORIES = gql`
-  query($orderBy: AllRepositoriesOrderBy, $orderDirection: OrderDirection, $searchKeyword: String) {
+  query GET_REPOSITORIES($orderBy: AllRepositoriesOrderBy, $orderDirection: OrderDirection, $searchKeyword: String) {
     repositories(orderBy: $orderBy, orderDirection: $orderDirection, searchKeyword: $searchKeyword) {
       edges {
         node {
@@ -25,7 +25,7 @@ export const GET_REPOSITORIES = gql`
 `;
 
 export const GET_REPOSITORY = gql`
-  query GetRepository($id: ID!, $first: Int, $after: String) {
+  query GET_REPOSITORY($id: ID!, $first: Int, $after: String) {
     repository(id: $id){
       id,
       name,
@@ -60,7 +60,7 @@ export const GET_REPOSITORY = gql`
 `;
 
 export const AUTHORIZED_USER = gql`
-  query ($includeReviews: Boolean = false){
+  query AUTHORIZED_USER($includeReviews: Boolean = false){
     authorizedUser {
       id,
       username,
@@ -75,7 +75,8 @@ export const AUTHORIZED_USER = gql`
             user{
               id,
               username
-            }
+            },
+            repositoryId
           }
         }
       }
